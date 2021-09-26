@@ -1,21 +1,18 @@
 # Test web app that returns the name of the host/pod/container servicing req
 # Linux x64
-FROM node:current-alpine
-
-LABEL org.opencontainers.image.title="Hello Docker Learners!" \
-      org.opencontainers.image.description="Web server showing host that responded" \
-      org.opencontainers.image.authors="@nigelpoulton"
+FROM node:14
 
 # Create directory in container image for app code
-RUN mkdir -p /usr/src/app/gitsync
+RUN mkdir -p /code
+COPY ./wait.sh /code
+RUN chmod +x /code/wait.sh
 
-RUN git clone 
-
+ENTRYPOINT ["/code/wait.sh"]
 # Set working directory context
-WORKDIR /usr/src/app/gitsync
+# WORKDIR /code
 
-# Install dependencies from packages.json
-RUN npm install
+# # Install dependencies from packages.json
+# RUN npm install
 
-# Command for container to execute
-ENTRYPOINT [ "node", "app.js" ]
+# # Command for container to execute
+# ENTRYPOINT [ "node", "app.js" ]
